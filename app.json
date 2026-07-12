@@ -1,0 +1,8 @@
+{
+  "expo": {
+    "name": "Vaccination Learning App",
+    "slug": "vaccination-learning-app",
+    "version": "0.1.0",
+    "sdkVersion": "48.0.0"
+  }
+}
