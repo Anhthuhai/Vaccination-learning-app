@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import safety from '../data/safety';
 import serums from '../data/serums';
+import DisclaimerNote from '../components/DisclaimerNote';
 
 function Section({ title, items, color }) {
   return (
@@ -20,9 +21,8 @@ export default function SafetyScreen() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>An toàn & Tác dụng phụ</Text>
-
-      <Section title="✅ Chuẩn bị trước khi tiêm" items={safety.beforeVaccination} color="#1976d2" />
-      <Section title="Phản ứng thường gặp (nhẹ)" items={safety.common} color="#2e7d32" />
+      <DisclaimerNote />
+      <Section title="✅ Chuẩn bị trước khi tiêm" items={safety.beforeVaccination} color="#1976d2" />      <Section title="Phản ứng thường gặp (nhẹ)" items={safety.common} color="#2e7d32" />
       <Section title="Phản ứng hiếm gặp" items={safety.rare} color="#e65100" />
       <Section title="⚠️ Khi nào cần đến cơ sở y tế ngay" items={safety.whenToSeekHelp} color="#c62828" />
       <Section title="Chăm sóc tại nhà" items={safety.homeCare} color="#1976d2" />

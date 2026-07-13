@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import quizQuestions from '../data/quizQuestions';
+import DisclaimerNote from '../components/DisclaimerNote';
 
 const SET_SIZE = 10;
 
@@ -89,6 +90,7 @@ export default function QuizScreen() {
         <Text style={styles.subtitle}>
           {total} câu về vaccine & tiêm chủng. Chọn phần bạn muốn luyện tập:
         </Text>
+        <DisclaimerNote />
 
         <TouchableOpacity
           style={styles.allBtn}

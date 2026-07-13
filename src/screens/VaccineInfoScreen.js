@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import vaccines, { categories } from '../data/vaccines';
 import dosing from '../data/dosing';
+import DisclaimerNote from '../components/DisclaimerNote';
 
 export default function VaccineInfoScreen() {
   const [query, setQuery] = useState('');
@@ -23,6 +24,7 @@ export default function VaccineInfoScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>Vaccine tại Việt Nam</Text>
       <Text style={styles.count}>{vaccines.length} loại vaccine · TCMR & dịch vụ</Text>
+      <DisclaimerNote />
       <TextInput
         style={styles.search}
         placeholder="Tìm theo tên vaccine, bệnh hoặc hãng..."

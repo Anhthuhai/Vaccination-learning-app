@@ -16,7 +16,7 @@ import { prePregnancy, duringPregnancy, postpartum } from '../data/pregnancy';
 import { elderly, chronic } from '../data/elderly';
 import { immunocompromised, occupationTravel } from '../data/special';
 import { meningococcal } from '../data/meningococcal';
-
+import DisclaimerNote from '../components/DisclaimerNote';
 const vaccineById = {};
 vaccines.forEach((v) => {
   vaccineById[v.id] = v;
@@ -391,6 +391,7 @@ export default function ConsultScreen() {
       <Text style={styles.subtitle}>
         Nhập thông tin khách hàng để gợi ý các vaccine phù hợp để tư vấn/tiêm.
       </Text>
+      <DisclaimerNote />
 
       {/* Chọn chế độ tư vấn */}
       <View style={styles.modeRow}>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import schedule from '../data/schedule';
+import DisclaimerNote from '../components/DisclaimerNote';
 
 export default function ScheduleScreen() {
   const [done, setDone] = useState({});
@@ -35,6 +36,7 @@ export default function ScheduleScreen() {
       <Text style={styles.progress}>
         Đã đánh dấu: {doneCount}/{allKeys.length} mũi
       </Text>
+      <DisclaimerNote />
       <View style={styles.legend}>
         <View style={[styles.tag, styles.tagEpi]}>
           <Text style={styles.tagText}>TCMR</Text>
