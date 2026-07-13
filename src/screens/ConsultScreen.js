@@ -15,6 +15,7 @@ import { getSeasonalTips } from '../data/seasonal';
 import { prePregnancy, duringPregnancy, postpartum } from '../data/pregnancy';
 import { elderly, chronic } from '../data/elderly';
 import { immunocompromised, occupationTravel } from '../data/special';
+import { meningococcal } from '../data/meningococcal';
 
 const vaccineById = {};
 vaccines.forEach((v) => {
@@ -225,6 +226,60 @@ function ChronicAdvice({ data, icon }) {
   );
 }
 
+// Tư vấn vaccine não mô cầu: 2 dòng + nguyên tắc phối hợp + lịch ví dụ
+function MeningoAdvice({ data }) {
+  return (
+    <View style={styles.pregWrap}>
+      <View style={styles.pregHeader}>
+        <Text style={styles.pregTitle}>🧠 {data.title}</Text>
+        <Text style={styles.pregSubtitle}>{data.subtitle}</Text>
+      </View>
+
+      {data.lines.map((line) => (
+        <View key={line.id} style={styles.chronicCard}>
+          <Text style={styles.chronicName}>{line.name}</Text>
+          <Text style={styles.meningoCover}>🛡️ Phủ: {line.cover}</Text>
+          <Text style={styles.pregLabel}>🏭 Nguồn gốc: <Text style={styles.pregValue}>{line.origin}</Text></Text>
+          <Text style={styles.pregLabel}>👶 Độ tuổi: <Text style={styles.pregValue}>{line.ageStart}</Text></Text>
+          <Text style={styles.pregLabel}>💉 Lịch: <Text style={styles.pregValue}>{line.schedule}</Text></Text>
+          <Text style={styles.pregLabel}>📍 Đường tiêm: <Text style={styles.pregValue}>{line.route}</Text></Text>
+          <Text style={styles.pregLabel}>✅ Chọn khi: <Text style={styles.pregValue}>{line.chooseWhen}</Text></Text>
+          <Text style={styles.pregWarnText}>⚠️ {line.note}</Text>
+        </View>
+      ))}
+
+      {/* Nguyên tắc phối hợp */}
+      <View style={styles.combineCard}>
+        <Text style={styles.combineTitle}>🔀 Khi phối hợp cả hai dòng</Text>
+        {data.combineRules.map((rule, i) => (
+          <Text key={i} style={styles.combineItem}>• {rule}</Text>
+        ))}
+      </View>
+
+      {/* Lịch ví dụ dạng bảng */}
+      <View style={styles.combineCard}>
+        <Text style={styles.combineTitle}>📅 {data.combineExample.title}</Text>
+        {data.combineExample.rows.map((row, i) => (
+          <View key={i} style={styles.scheduleRow}>
+            <Text style={styles.scheduleTime}>{row.time}</Text>
+            <Text style={styles.scheduleShot}>{row.shot}</Text>
+          </View>
+        ))}
+      </View>
+
+      {data.note ? (
+        <View style={styles.avoidCard}>
+          <Text style={styles.avoidNote}>{data.note}</Text>
+        </View>
+      ) : null}
+
+      <Text style={styles.disclaimer}>
+        ⚠️ Nội dung tham khảo/học tập. Lịch cụ thể do bác sĩ tiêm chủng quyết định.
+      </Text>
+    </View>
+  );
+}
+
 export default function ConsultScreen() {
   const [mode, setMode] = useState('age'); // 'age' | 'pre' | 'pregnant' | 'post' | 'elderly' | 'chronic'
   const [years, setYears] = useState('');
@@ -374,6 +429,21 @@ export default function ConsultScreen() {
           </TouchableOpacity>
         ))}
       </View>
+      <View style={styles.modeRow}>
+        {[
+          { key: 'meningo', label: 'Não mô cầu' },
+        ].map((m) => (
+          <TouchableOpacity
+            key={m.key}
+            style={[styles.modeBtn, mode === m.key && styles.modeBtnActive]}
+            onPress={() => setMode(m.key)}
+          >
+            <Text style={[styles.modeText, mode === m.key && styles.modeTextActive]}>
+              {m.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
 
       {/* Chế độ tư vấn thai kỳ / sau sinh */}
       {(mode === 'pre' || mode === 'pregnant' || mode === 'post') && (
@@ -387,6 +457,7 @@ export default function ConsultScreen() {
       {mode === 'chronic' && <ChronicAdvice data={chronic} icon="🩺" />}
       {mode === 'immuno' && <ChronicAdvice data={immunocompromised} icon="🛡️" />}
       {mode === 'travel' && <ChronicAdvice data={occupationTravel} icon="✈️" />}
+      {mode === 'meningo' && <MeningoAdvice data={meningococcal} />}
 
       {mode === 'age' && (
         <>
@@ -787,6 +858,25 @@ const styles = StyleSheet.create({
   chronicVacLabel: { fontSize: 13, fontWeight: '600', color: '#344054', marginTop: 8 },
   chronicVacItem: { fontSize: 13, color: '#475467', marginTop: 3, lineHeight: 19 },
   chronicNote: { fontSize: 12, color: '#0369a1', marginTop: 8, lineHeight: 18, fontStyle: 'italic' },
+  meningoCover: { fontSize: 13, fontWeight: '700', color: '#7c3aed', marginTop: 4, marginBottom: 4 },
+  combineCard: {
+    backgroundColor: '#eff6ff',
+    borderWidth: 1,
+    borderColor: '#bfdbfe',
+    borderRadius: 12,
+    padding: 14,
+    marginTop: 10,
+  },
+  combineTitle: { fontSize: 14, fontWeight: 'bold', color: '#1e40af', marginBottom: 8 },
+  combineItem: { fontSize: 13, color: '#1e3a5f', marginTop: 4, lineHeight: 19 },
+  scheduleRow: {
+    flexDirection: 'row',
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: '#dbeafe',
+  },
+  scheduleTime: { flex: 1, fontSize: 12, fontWeight: '600', color: '#1e40af', paddingRight: 8 },
+  scheduleShot: { flex: 1.4, fontSize: 12, color: '#334155', lineHeight: 17 },
   nextDoseBox: {
     backgroundColor: '#f0fdf4',
     borderWidth: 1,
