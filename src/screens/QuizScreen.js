@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
 
   // Màn hình chọn phần
   allBtn: {
-    backgroundColor: '#1976d2',
+    backgroundColor: '#0d9488',
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -286,15 +286,15 @@ const styles = StyleSheet.create({
   setWrap: { flexDirection: 'row', flexWrap: 'wrap', marginBottom: 16 },
   setBtn: {
     borderWidth: 1,
-    borderColor: '#1976d2',
+    borderColor: '#0d9488',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
     marginRight: 8,
     marginBottom: 8,
-    backgroundColor: '#e3f2fd',
+    backgroundColor: '#ccfbf1',
   },
-  setBtnText: { color: '#1565c0', fontSize: 13, fontWeight: '700' },
+  setBtnText: { color: '#0f766e', fontSize: 13, fontWeight: '700' },
   diffSelBtn: {
     borderWidth: 1.5,
     borderRadius: 10,
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   navCellTextLight: { color: '#fff' },
   navCellCorrect: { backgroundColor: '#2e7d32', borderColor: '#2e7d32' },
   navCellWrong: { backgroundColor: '#c62828', borderColor: '#c62828' },
-  navCellCurrent: { borderColor: '#1976d2', borderWidth: 3 },
+  navCellCurrent: { borderColor: '#0d9488', borderWidth: 3 },
 
   question: { fontSize: 20, fontWeight: '600', marginBottom: 20 },
   diffBadge: {
@@ -389,11 +389,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   navBtnDisabled: { opacity: 0.4 },
-  navBtnPrimary: { backgroundColor: '#1976d2' },
+  navBtnPrimary: { backgroundColor: '#0d9488' },
   navBtnText: { fontSize: 15, fontWeight: '700', color: '#37474f' },
   navBtnTextPrimary: { color: '#fff' },
   primaryBtn: {
-    backgroundColor: '#1976d2',
+    backgroundColor: '#0d9488',
     paddingVertical: 14,
     paddingHorizontal: 28,
     borderRadius: 10,

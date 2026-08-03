@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
   },
-  savedName: { fontSize: 18, fontWeight: '700', color: '#1976d2' },
+  savedName: { fontSize: 18, fontWeight: '700', color: '#0d9488' },
   savedLine: { fontSize: 14, color: '#333', marginTop: 4 },
   label: { fontSize: 14, fontWeight: '600', marginBottom: 6, marginTop: 4 },
   input: {
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   btnRow: { flexDirection: 'row', marginTop: 4, marginBottom: 20 },
   primaryBtn: {
     flex: 1,
-    backgroundColor: '#1976d2',
+    backgroundColor: '#0d9488',
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: 'center',

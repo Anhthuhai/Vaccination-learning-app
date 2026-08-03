@@ -3,6 +3,32 @@
     "name": "Vaccination Learning App",
     "slug": "vaccination-learning-app",
     "version": "0.1.0",
-    "sdkVersion": "48.0.0"
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.anhthuhai.vaccinationlearning",
+      "buildNumber": "1",
+      "supportsTablet": true,
+      "infoPlist": {
+        "CFBundleDisplayName": "Học Tiêm Chủng"
+      }
+    },
+    "android": {
+      "package": "com.anhthuhai.vaccinationlearning",
+      "versionCode": 1
+    },
+    "extra": {
+      "eas": {
+        "projectId": "cd002eb0-1de5-458c-b948-459155933132"
+      }
+    },
+    "owner": "anhthuhai",
+    "plugins": [
+      "expo-asset",
+      "expo-font"
+    ]
   }
 }

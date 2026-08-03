@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { DATA_DISCLAIMER } from '../data/appMeta';
+import { colors, radius, spacing } from '../theme';
 
 // Ghi chú nhắc người dùng kiểm chứng dữ liệu với văn bản hiện hành của Bộ Y tế
 export default function DisclaimerNote({ style }) {
@@ -15,12 +16,14 @@ export default function DisclaimerNote({ style }) {
 const styles = StyleSheet.create({
   box: {
     flexDirection: 'row',
-    backgroundColor: '#fff8e1',
+    backgroundColor: colors.warningLight,
     borderWidth: 1,
     borderColor: '#ffe082',
-    borderRadius: 10,
-    padding: 10,
-    marginBottom: 12,
+    borderLeftWidth: 4,
+    borderLeftColor: colors.warning,
+    borderRadius: radius.md,
+    padding: spacing.md,
+    marginBottom: spacing.md,
     alignItems: 'flex-start',
   },
   icon: { fontSize: 14, marginRight: 6 },

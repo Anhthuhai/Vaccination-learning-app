@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: '#fff',
   },
-  title: { fontSize: 17, fontWeight: '700', color: '#1976d2', marginBottom: 6 },
+  title: { fontSize: 17, fontWeight: '700', color: '#0d9488', marginBottom: 6 },
   scenario: { fontSize: 15, color: '#333', lineHeight: 21, marginBottom: 10 },
   question: { fontSize: 15, fontWeight: '600', marginBottom: 10 },
   option: {
@@ -85,5 +85,5 @@ const styles = StyleSheet.create({
   explainBox: { marginTop: 4, padding: 12, borderRadius: 10, backgroundColor: '#f5f5f5' },
   explainTitle: { fontSize: 15, fontWeight: '700', marginBottom: 6 },
   explainText: { fontSize: 14, color: '#444', lineHeight: 20, marginBottom: 8 },
-  retry: { fontSize: 14, color: '#1976d2', fontWeight: '600' },
+  retry: { fontSize: 14, color: '#0d9488', fontWeight: '600' },
 });

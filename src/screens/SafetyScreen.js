@@ -22,10 +22,11 @@ export default function SafetyScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.heading}>An toàn & Tác dụng phụ</Text>
       <DisclaimerNote />
-      <Section title="✅ Chuẩn bị trước khi tiêm" items={safety.beforeVaccination} color="#1976d2" />      <Section title="Phản ứng thường gặp (nhẹ)" items={safety.common} color="#2e7d32" />
+      <Section title="✅ Chuẩn bị trước khi tiêm" items={safety.beforeVaccination} color="#0d9488" />
+      <Section title="Phản ứng thường gặp (nhẹ)" items={safety.common} color="#2e7d32" />
       <Section title="Phản ứng hiếm gặp" items={safety.rare} color="#e65100" />
       <Section title="⚠️ Khi nào cần đến cơ sở y tế ngay" items={safety.whenToSeekHelp} color="#c62828" />
-      <Section title="Chăm sóc tại nhà" items={safety.homeCare} color="#1976d2" />
+      <Section title="Chăm sóc tại nhà" items={safety.homeCare} color="#0d9488" />
 
       <Text style={styles.subHeading}>📚 Kiến thức nền</Text>
       {safety.principles.map((p, i) => (
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 12,
   },
-  principleTitle: { fontSize: 15, fontWeight: '700', color: '#1976d2', marginBottom: 6 },
+  principleTitle: { fontSize: 15, fontWeight: '700', color: '#0d9488', marginBottom: 6 },
   principleBody: { fontSize: 14, color: '#444', lineHeight: 21 },
   serumIntro: { fontSize: 13, color: '#666', fontStyle: 'italic', marginBottom: 10 },
   serumCard: {

@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     backgroundColor: '#fff',
   },
-  ageLabel: { fontSize: 16, fontWeight: '700', color: '#1976d2', marginBottom: 8 },
+  ageLabel: { fontSize: 16, fontWeight: '700', color: '#0d9488', marginBottom: 8 },
   item: { flexDirection: 'row', alignItems: 'center', paddingVertical: 6 },
   checkbox: { fontSize: 20, marginRight: 10 },
   itemText: { fontSize: 15, flex: 1 },
