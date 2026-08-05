@@ -36,6 +36,9 @@
       }
     },
     "owner": "anhthuhai",
+    "experiments": {
+      "newArchEnabled": true
+    },
     "plugins": [
       "expo-asset",
       "expo-font"
