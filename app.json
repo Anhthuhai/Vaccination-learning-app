@@ -42,6 +42,12 @@
     "plugins": [
       "expo-asset",
       "expo-font"
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/cd002eb0-1de5-458c-b948-459155933132"
+    }
   }
 }
