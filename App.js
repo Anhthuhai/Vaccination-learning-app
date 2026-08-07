@@ -9,6 +9,7 @@ import QuizScreen from './src/screens/QuizScreen';
 import CasesScreen from './src/screens/CasesScreen';
 import SafetyScreen from './src/screens/SafetyScreen';
 import ConsultScreen from './src/screens/ConsultScreen';
+import DonateScreen from './src/screens/DonateScreen';
 import { colors } from './src/theme';
 
 const Tab = createBottomTabNavigator();
@@ -21,6 +22,7 @@ const TAB_ICON = {
   Cases: '🩺',
   Safety: '🛡️',
   Consult: '💬',
+  Donate: '💝',
 };
 
 // Theme cho NavigationContainer
@@ -75,6 +77,7 @@ export default function App() {
         <Tab.Screen name="Cases" component={CasesScreen} options={{ title: 'Tình huống' }} />
         <Tab.Screen name="Safety" component={SafetyScreen} options={{ title: 'An toàn' }} />
         <Tab.Screen name="Consult" component={ConsultScreen} options={{ title: 'Tư vấn' }} />
+        <Tab.Screen name="Donate" component={DonateScreen} options={{ title: 'Ủng hộ' }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
