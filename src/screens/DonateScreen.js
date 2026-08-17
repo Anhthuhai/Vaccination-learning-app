@@ -10,6 +10,7 @@ import {
   Platform,
   ToastAndroid,
   Alert,
+  Share,
 } from 'react-native';
 import { colors, spacing, radius, shadow, typography } from '../theme';
 
@@ -21,13 +22,43 @@ const PAYMENT_INFO = {
   note: 'Ung ho app Hoc Tiem Chung',
 };
 
-function copyToClipboard(label, value) {
-  Clipboard.setString(value);
-  const msg = `Đã sao chép ${label}`;
+// Các mức ủng hộ gợi ý (giúp người dùng quyết định nhanh hơn)
+const SUGGESTED_AMOUNTS = [
+  { emoji: '☕', label: '20.000đ', desc: 'Một ly cà phê' },
+  { emoji: '🍜', label: '50.000đ', desc: 'Một bữa ăn' },
+  { emoji: '💐', label: '100.000đ', desc: 'Người hùng thầm lặng' },
+];
+
+// Giá trị app mang lại (tăng động lực ủng hộ)
+const APP_VALUES = [
+  '📚 Thông tin vaccine đầy đủ, cập nhật theo Bộ Y tế',
+  '📝 Ngân hàng câu hỏi ôn tập phong phú',
+  '🗓️ Tra cứu lịch tiêm & liều lượng chi tiết',
+  '💬 Tư vấn theo từng đối tượng (thai phụ, trẻ em, người cao tuổi...)',
+  '🆓 Hoàn toàn miễn phí, không quảng cáo',
+];
+
+function showToast(msg) {
   if (Platform.OS === 'android') {
     ToastAndroid.show(msg, ToastAndroid.SHORT);
   } else {
     Alert.alert('✓', msg);
+  }
+}
+
+function copyToClipboard(label, value) {
+  Clipboard.setString(value);
+  showToast(`Đã sao chép ${label}`);
+}
+
+async function shareApp() {
+  try {
+    await Share.share({
+      message:
+        'Mình đang dùng app "Học Tiêm Chủng" — tra cứu vaccine, lịch tiêm và ôn tập rất tiện. Bạn thử nhé! 💉📚',
+    });
+  } catch (e) {
+    // Người dùng huỷ chia sẻ — bỏ qua
   }
 }
 
@@ -59,9 +90,31 @@ export default function DonateScreen() {
         <Text style={styles.heroEmoji}>💝</Text>
         <Text style={styles.heroTitle}>Ủng hộ ứng dụng</Text>
         <Text style={styles.heroSubtitle}>
-          Cảm ơn bạn đã sử dụng app! Mọi đóng góp của bạn giúp duy trì và phát
-          triển thêm nhiều nội dung hữu ích về tiêm chủng. 🙏
+          App được phát triển hoàn toàn miễn phí bởi tâm huyết cá nhân. Nếu thấy
+          hữu ích, một ly cà phê từ bạn sẽ tiếp thêm động lực để mình duy trì và
+          phát triển thêm nội dung mới. 🙏
         </Text>
+      </View>
+
+      {/* Giá trị app mang lại */}
+      <View style={styles.valueCard}>
+        <Text style={styles.valueTitle}>Ứng dụng mang lại cho bạn</Text>
+        {APP_VALUES.map((v, i) => (
+          <Text key={i} style={styles.valueItem}>
+            {v}
+          </Text>
+        ))}
+      </View>
+
+      {/* Mức ủng hộ gợi ý */}
+      <View style={styles.amountRow}>
+        {SUGGESTED_AMOUNTS.map((a, i) => (
+          <View key={i} style={styles.amountChip}>
+            <Text style={styles.amountEmoji}>{a.emoji}</Text>
+            <Text style={styles.amountLabel}>{a.label}</Text>
+            <Text style={styles.amountDesc}>{a.desc}</Text>
+          </View>
+        ))}
       </View>
 
       {/* Mã QR thanh toán */}
@@ -87,6 +140,30 @@ export default function DonateScreen() {
         <InfoRow label="Chủ tài khoản" value={PAYMENT_INFO.accountName} />
         <InfoRow label="Số tài khoản" value={PAYMENT_INFO.accountNumber} />
         <InfoRow label="Nội dung" value={PAYMENT_INFO.note} />
+
+        {/* Nút sao chép nhanh số tài khoản */}
+        <TouchableOpacity
+          style={styles.copyBtn}
+          activeOpacity={0.85}
+          onPress={() => copyToClipboard('số tài khoản', PAYMENT_INFO.accountNumber)}
+        >
+          <Text style={styles.copyBtnText}>📋 Sao chép số tài khoản</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Chia sẻ app thay lời cảm ơn */}
+      <View style={styles.shareCard}>
+        <Text style={styles.shareTitle}>Chưa tiện ủng hộ?</Text>
+        <Text style={styles.shareDesc}>
+          Chia sẻ app cho bạn bè, người thân cũng là một cách ủng hộ tuyệt vời! 💚
+        </Text>
+        <TouchableOpacity
+          style={styles.shareBtn}
+          activeOpacity={0.85}
+          onPress={shareApp}
+        >
+          <Text style={styles.shareBtnText}>🔗 Chia sẻ ứng dụng</Text>
+        </TouchableOpacity>
       </View>
 
       <Text style={styles.footerNote}>
@@ -131,6 +208,55 @@ const styles = StyleSheet.create({
     color: colors.onPrimary,
     textAlign: 'center',
     opacity: 0.95,
+  },
+
+  // Value card
+  valueCard: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    marginBottom: spacing.lg,
+    ...shadow.card,
+  },
+  valueTitle: {
+    ...typography.h3,
+    marginBottom: spacing.md,
+  },
+  valueItem: {
+    fontSize: 14,
+    color: colors.textMuted,
+    lineHeight: 24,
+  },
+
+  // Suggested amounts
+  amountRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: spacing.lg,
+  },
+  amountChip: {
+    flex: 1,
+    backgroundColor: colors.primaryLight,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xs,
+    alignItems: 'center',
+    marginHorizontal: spacing.xs / 2,
+  },
+  amountEmoji: {
+    fontSize: 24,
+    marginBottom: 4,
+  },
+  amountLabel: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: colors.primaryDark,
+  },
+  amountDesc: {
+    fontSize: 10,
+    color: colors.textMuted,
+    textAlign: 'center',
+    marginTop: 2,
   },
 
   // QR
@@ -198,6 +324,49 @@ const styles = StyleSheet.create({
   copyIcon: {
     fontSize: 18,
     marginLeft: spacing.md,
+  },
+  copyBtn: {
+    backgroundColor: colors.primary,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
+    alignItems: 'center',
+    marginTop: spacing.md,
+  },
+  copyBtnText: {
+    color: colors.onPrimary,
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  // Share card
+  shareCard: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+    ...shadow.card,
+  },
+  shareTitle: {
+    ...typography.h3,
+    marginBottom: spacing.xs,
+  },
+  shareDesc: {
+    ...typography.muted,
+    textAlign: 'center',
+    marginBottom: spacing.md,
+  },
+  shareBtn: {
+    backgroundColor: colors.accent,
+    borderRadius: radius.md,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xl,
+    alignItems: 'center',
+  },
+  shareBtnText: {
+    color: colors.onPrimary,
+    fontSize: 15,
+    fontWeight: '700',
   },
 
   footerNote: {
