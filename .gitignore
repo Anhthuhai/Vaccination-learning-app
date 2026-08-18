@@ -8,3 +8,6 @@ build/
 android/
 ios/
 expo-go-qr.png
+
+*.aab
+*.ipa
