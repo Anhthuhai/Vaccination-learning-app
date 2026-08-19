@@ -11,3 +11,7 @@ expo-go-qr.png
 
 *.aab
 *.ipa
+
+# Google Play service account key (SECRET — never commit)
+play-service-account.json
+vaccination-learning-app-*.json
