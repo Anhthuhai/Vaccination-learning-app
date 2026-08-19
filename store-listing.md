@@ -24,7 +24,16 @@ Tra cứu vaccine, lịch tiêm chủng và ôn tập kiến thức tiêm chủn
 ```
 💉 HỌC TIÊM CHỦNG — Cẩm nang tiêm chủng Việt Nam trong tầm tay
 
+⚠️ MIỄN TRỪ TRÁCH NHIỆM: Đây là ứng dụng GIÁO DỤC ĐỘC LẬP. Ứng dụng KHÔNG phải là ứng dụng chính thức của chính phủ, KHÔNG đại diện, KHÔNG liên kết và KHÔNG được ủy quyền bởi bất kỳ cơ quan chính phủ nào (bao gồm Bộ Y tế Việt Nam). Mọi thông tin chỉ mang tính tham khảo, không thay thế tư vấn y tế chuyên nghiệp.
+
 Ứng dụng giáo dục miễn phí giúp bạn tra cứu thông tin vaccine, lịch tiêm chủng và ôn luyện kiến thức về tiêm chủng tại Việt Nam. Phù hợp cho phụ huynh, sinh viên y - dược, nhân viên y tế và bất kỳ ai quan tâm đến sức khỏe cộng đồng.
+
+🔗 NGUỒN THÔNG TIN CHÍNH THỨC
+Thông tin trong ứng dụng được tham khảo và tổng hợp từ các nguồn chính thức của cơ quan nhà nước Việt Nam. Vui lòng truy cập để xem thông tin gốc và cập nhật mới nhất:
+• Bộ Y tế Việt Nam: https://moh.gov.vn
+• Chương trình Tiêm chủng mở rộng Quốc gia: https://tiemchungmorong.vn
+• Viện Vệ sinh Dịch tễ Trung ương (NIHE): https://nihe.org.vn
+• Cổng thông tin tiêm chủng COVID-19: https://tiemchungcovid19.gov.vn
 
 🌟 TÍNH NĂNG CHÍNH
 
@@ -60,7 +69,7 @@ Tra cứu vaccine, lịch tiêm chủng và ôn tập kiến thức tiêm chủn
 • 🔒 Không thu thập thông tin cá nhân
 
 ⚠️ LƯU Ý
-Mọi thông tin trong ứng dụng chỉ mang tính tham khảo và giáo dục, không thay thế cho tư vấn y tế chuyên nghiệp. Vui lòng đối chiếu hướng dẫn của Bộ Y tế và nhà sản xuất, đồng thời tham khảo ý kiến bác sĩ.
+Mọi thông tin trong ứng dụng chỉ mang tính tham khảo và giáo dục, không thay thế cho tư vấn y tế chuyên nghiệp. Vui lòng đối chiếu hướng dẫn của Bộ Y tế (moh.gov.vn) và nhà sản xuất, đồng thời tham khảo ý kiến bác sĩ. Ứng dụng không đại diện cho bất kỳ cơ quan chính phủ nào.
 
 📧 Góp ý: luongyan@gmail.com
 ```
