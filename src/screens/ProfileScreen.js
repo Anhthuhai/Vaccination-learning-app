@@ -18,11 +18,6 @@ const OFFICIAL_SOURCES = [
     url: 'https://nihe.org.vn',
     desc: 'Nghiên cứu & hướng dẫn tiêm chủng',
   },
-  {
-    label: 'Cổng thông tin tiêm chủng COVID-19',
-    url: 'https://tiemchungcovid19.gov.vn',
-    desc: 'Cổng chính thức của Chính phủ',
-  },
 ];
 
 export default function ProfileScreen() {

@@ -2,7 +2,7 @@
   "expo": {
     "name": "Vaccination Learning App",
     "slug": "vaccination-learning-app",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

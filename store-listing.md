@@ -33,7 +33,6 @@ Thông tin trong ứng dụng được tham khảo và tổng hợp từ các ng
 • Bộ Y tế Việt Nam: https://moh.gov.vn
 • Chương trình Tiêm chủng mở rộng Quốc gia: https://tiemchungmorong.vn
 • Viện Vệ sinh Dịch tễ Trung ương (NIHE): https://nihe.org.vn
-• Cổng thông tin tiêm chủng COVID-19: https://tiemchungcovid19.gov.vn
 
 🌟 TÍNH NĂNG CHÍNH
 
