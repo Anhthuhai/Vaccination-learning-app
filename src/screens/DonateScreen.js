@@ -13,6 +13,7 @@ import {
   Share,
 } from 'react-native';
 import { colors, spacing, radius, shadow, typography } from '../theme';
+import { useLanguage } from '../i18n/LanguageContext';
 
 // ⚙️ THÔNG TIN THANH TOÁN — bạn hãy sửa lại cho đúng tài khoản của mình
 const PAYMENT_INFO = {
@@ -22,21 +23,30 @@ const PAYMENT_INFO = {
   note: 'Ung ho app Hoc Tiem Chung',
 };
 
-// Các mức ủng hộ gợi ý (giúp người dùng quyết định nhanh hơn)
+// Các mức ủng hộ gợi ý (song ngữ)
 const SUGGESTED_AMOUNTS = [
-  { emoji: '☕', label: '20.000đ', desc: 'Một ly cà phê' },
-  { emoji: '🍜', label: '50.000đ', desc: 'Một bữa ăn' },
-  { emoji: '💐', label: '100.000đ', desc: 'Người hùng thầm lặng' },
+  { emoji: '☕', label: '20.000đ', desc: { vi: 'Một ly cà phê', en: 'A cup of coffee' } },
+  { emoji: '🍜', label: '50.000đ', desc: { vi: 'Một bữa ăn', en: 'A meal' } },
+  { emoji: '💐', label: '100.000đ', desc: { vi: 'Người hùng thầm lặng', en: 'A silent hero' } },
 ];
 
-// Giá trị app mang lại (tăng động lực ủng hộ)
-const APP_VALUES = [
-  '📚 Thông tin vaccine đầy đủ, cập nhật theo Bộ Y tế',
-  '📝 Ngân hàng câu hỏi ôn tập phong phú',
-  '🗓️ Tra cứu lịch tiêm & liều lượng chi tiết',
-  '💬 Tư vấn theo từng đối tượng (thai phụ, trẻ em, người cao tuổi...)',
-  '🆓 Hoàn toàn miễn phí, không quảng cáo',
-];
+// Giá trị app mang lại (song ngữ)
+const APP_VALUES = {
+  vi: [
+    '📚 Thông tin vaccine đầy đủ, cập nhật theo Bộ Y tế',
+    '📝 Ngân hàng câu hỏi ôn tập phong phú',
+    '🗓️ Tra cứu lịch tiêm & liều lượng chi tiết',
+    '💬 Tư vấn theo từng đối tượng (thai phụ, trẻ em, người cao tuổi...)',
+    '🆓 Hoàn toàn miễn phí, không quảng cáo',
+  ],
+  en: [
+    '📚 Comprehensive vaccine info, updated per Ministry of Health',
+    '📝 Rich question bank for review',
+    '🗓️ Look up schedules & detailed dosages',
+    '💬 Advice by group (pregnant women, children, elderly...)',
+    '🆓 Completely free, no ads',
+  ],
+};
 
 function showToast(msg) {
   if (Platform.OS === 'android') {
@@ -46,28 +56,29 @@ function showToast(msg) {
   }
 }
 
-function copyToClipboard(label, value) {
+function copyToClipboard(value, copiedMsg) {
   Clipboard.setString(value);
-  showToast(`Đã sao chép ${label}`);
+  showToast(copiedMsg);
 }
 
-async function shareApp() {
+async function shareApp(lang) {
+  const message =
+    lang === 'en'
+      ? 'I am using the "Vaccination Learning" app — look up vaccines, schedules, and review knowledge easily. Give it a try! 💉📚'
+      : 'Mình đang dùng app "Học Tiêm Chủng" — tra cứu vaccine, lịch tiêm và ôn tập rất tiện. Bạn thử nhé! 💉📚';
   try {
-    await Share.share({
-      message:
-        'Mình đang dùng app "Học Tiêm Chủng" — tra cứu vaccine, lịch tiêm và ôn tập rất tiện. Bạn thử nhé! 💉📚',
-    });
+    await Share.share({ message });
   } catch (e) {
     // Người dùng huỷ chia sẻ — bỏ qua
   }
 }
 
-function InfoRow({ label, value }) {
+function InfoRow({ label, value, copiedMsg }) {
   return (
     <TouchableOpacity
       style={styles.infoRow}
       activeOpacity={0.7}
-      onPress={() => copyToClipboard(label, value)}
+      onPress={() => copyToClipboard(value, copiedMsg)}
     >
       <View style={{ flex: 1 }}>
         <Text style={styles.infoLabel}>{label}</Text>
@@ -79,6 +90,8 @@ function InfoRow({ label, value }) {
 }
 
 export default function DonateScreen() {
+  const { t, lang } = useLanguage();
+  const copiedText = (label) => `${t('common.copied')} ${label}`;
   return (
     <ScrollView
       style={styles.container}
@@ -88,18 +101,14 @@ export default function DonateScreen() {
       {/* Lời cảm ơn */}
       <View style={styles.heroCard}>
         <Text style={styles.heroEmoji}>💝</Text>
-        <Text style={styles.heroTitle}>Ủng hộ ứng dụng</Text>
-        <Text style={styles.heroSubtitle}>
-          App được phát triển hoàn toàn miễn phí bởi tâm huyết cá nhân. Nếu thấy
-          hữu ích, một ly cà phê từ bạn sẽ tiếp thêm động lực để mình duy trì và
-          phát triển thêm nội dung mới. 🙏
-        </Text>
+        <Text style={styles.heroTitle}>{t('donate.title')}</Text>
+        <Text style={styles.heroSubtitle}>{t('donate.subtitle')}</Text>
       </View>
 
       {/* Giá trị app mang lại */}
       <View style={styles.valueCard}>
-        <Text style={styles.valueTitle}>Ứng dụng mang lại cho bạn</Text>
-        {APP_VALUES.map((v, i) => (
+        <Text style={styles.valueTitle}>{t('donate.valueTitle')}</Text>
+        {APP_VALUES[lang].map((v, i) => (
           <Text key={i} style={styles.valueItem}>
             {v}
           </Text>
@@ -112,14 +121,14 @@ export default function DonateScreen() {
           <View key={i} style={styles.amountChip}>
             <Text style={styles.amountEmoji}>{a.emoji}</Text>
             <Text style={styles.amountLabel}>{a.label}</Text>
-            <Text style={styles.amountDesc}>{a.desc}</Text>
+            <Text style={styles.amountDesc}>{a.desc[lang]}</Text>
           </View>
         ))}
       </View>
 
       {/* Mã QR thanh toán */}
       <View style={styles.qrCard}>
-        <Text style={styles.qrTitle}>Quét mã QR để chuyển khoản</Text>
+        <Text style={styles.qrTitle}>{t('donate.qrTitle')}</Text>
         <View style={styles.qrFrame}>
           <Image
             source={require('../../assets/donate-qr.png')}
@@ -127,47 +136,55 @@ export default function DonateScreen() {
             resizeMode="contain"
           />
         </View>
-        <Text style={styles.qrHint}>
-          Mở app ngân hàng / ví điện tử → Quét mã QR
-        </Text>
+        <Text style={styles.qrHint}>{t('donate.qrHint')}</Text>
       </View>
 
       {/* Thông tin chuyển khoản thủ công */}
       <View style={styles.infoCard}>
-        <Text style={styles.infoCardTitle}>Hoặc chuyển khoản thủ công</Text>
-        <Text style={styles.infoCardHint}>Chạm vào từng dòng để sao chép</Text>
-        <InfoRow label="Ngân hàng" value={PAYMENT_INFO.bankName} />
-        <InfoRow label="Chủ tài khoản" value={PAYMENT_INFO.accountName} />
-        <InfoRow label="Số tài khoản" value={PAYMENT_INFO.accountNumber} />
-        <InfoRow label="Nội dung" value={PAYMENT_INFO.note} />
+        <Text style={styles.infoCardTitle}>
+          {lang === 'en' ? 'Or transfer manually' : 'Hoặc chuyển khoản thủ công'}
+        </Text>
+        <Text style={styles.infoCardHint}>
+          {lang === 'en' ? 'Tap each row to copy' : 'Chạm vào từng dòng để sao chép'}
+        </Text>
+        <InfoRow label={t('donate.bank')} value={PAYMENT_INFO.bankName} copiedMsg={copiedText(t('donate.bank'))} />
+        <InfoRow label={t('donate.accountName')} value={PAYMENT_INFO.accountName} copiedMsg={copiedText(t('donate.accountName'))} />
+        <InfoRow label={t('donate.accountNumber')} value={PAYMENT_INFO.accountNumber} copiedMsg={copiedText(t('donate.accountNumber'))} />
+        <InfoRow label={t('donate.note')} value={PAYMENT_INFO.note} copiedMsg={copiedText(t('donate.note'))} />
 
         {/* Nút sao chép nhanh số tài khoản */}
         <TouchableOpacity
           style={styles.copyBtn}
           activeOpacity={0.85}
-          onPress={() => copyToClipboard('số tài khoản', PAYMENT_INFO.accountNumber)}
+          onPress={() => copyToClipboard(PAYMENT_INFO.accountNumber, copiedText(t('donate.accountNumber')))}
         >
-          <Text style={styles.copyBtnText}>📋 Sao chép số tài khoản</Text>
+          <Text style={styles.copyBtnText}>{t('donate.copyAccount')}</Text>
         </TouchableOpacity>
       </View>
 
       {/* Chia sẻ app thay lời cảm ơn */}
       <View style={styles.shareCard}>
-        <Text style={styles.shareTitle}>Chưa tiện ủng hộ?</Text>
+        <Text style={styles.shareTitle}>
+          {lang === 'en' ? 'Not ready to donate?' : 'Chưa tiện ủng hộ?'}
+        </Text>
         <Text style={styles.shareDesc}>
-          Chia sẻ app cho bạn bè, người thân cũng là một cách ủng hộ tuyệt vời! 💚
+          {lang === 'en'
+            ? 'Sharing the app with friends and family is also a wonderful way to support! 💚'
+            : 'Chia sẻ app cho bạn bè, người thân cũng là một cách ủng hộ tuyệt vời! 💚'}
         </Text>
         <TouchableOpacity
           style={styles.shareBtn}
           activeOpacity={0.85}
-          onPress={shareApp}
+          onPress={() => shareApp(lang)}
         >
-          <Text style={styles.shareBtnText}>🔗 Chia sẻ ứng dụng</Text>
+          <Text style={styles.shareBtnText}>{t('donate.shareApp')}</Text>
         </TouchableOpacity>
       </View>
 
       <Text style={styles.footerNote}>
-        ❤️ Mọi sự ủng hộ dù nhỏ đều là nguồn động viên lớn. Xin chân thành cảm ơn!
+        {lang === 'en'
+          ? '❤️ Every bit of support, however small, means a lot. Thank you sincerely!'
+          : '❤️ Mọi sự ủng hộ dù nhỏ đều là nguồn động viên lớn. Xin chân thành cảm ơn!'}
       </Text>
     </ScrollView>
   );

@@ -11,6 +11,8 @@ import SafetyScreen from './src/screens/SafetyScreen';
 import ConsultScreen from './src/screens/ConsultScreen';
 import DonateScreen from './src/screens/DonateScreen';
 import { colors } from './src/theme';
+import { LanguageProvider, useLanguage } from './src/i18n/LanguageContext';
+import LanguageToggle from './src/components/LanguageToggle';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,6 +50,15 @@ function TabBarIcon({ name, focused }) {
 
 export default function App() {
   return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
+  );
+}
+
+function AppContent() {
+  const { t } = useLanguage();
+  return (
     <NavigationContainer theme={navTheme}>
       <StatusBar style="light" />
       <Tab.Navigator
@@ -56,6 +67,7 @@ export default function App() {
           headerStyle: { backgroundColor: colors.primary },
           headerTintColor: colors.onPrimary,
           headerTitleStyle: { fontWeight: '800', fontSize: 18 },
+          headerRight: () => <LanguageToggle />,
           tabBarActiveTintColor: colors.primary,
           tabBarInactiveTintColor: colors.textFaint,
           tabBarStyle: {
@@ -71,13 +83,13 @@ export default function App() {
           ),
         })}
       >
-        <Tab.Screen name="VaccineInfo" component={VaccineInfoScreen} options={{ title: 'Vaccine' }} />
-        <Tab.Screen name="Schedule" component={ScheduleScreen} options={{ title: 'Lịch' }} />
-        <Tab.Screen name="Quiz" component={QuizScreen} options={{ title: 'Quiz' }} />
-        <Tab.Screen name="Cases" component={CasesScreen} options={{ title: 'Tình huống' }} />
-        <Tab.Screen name="Safety" component={SafetyScreen} options={{ title: 'An toàn' }} />
-        <Tab.Screen name="Consult" component={ConsultScreen} options={{ title: 'Tư vấn' }} />
-        <Tab.Screen name="Donate" component={DonateScreen} options={{ title: 'Ủng hộ' }} />
+        <Tab.Screen name="VaccineInfo" component={VaccineInfoScreen} options={{ title: t('tab.vaccine') }} />
+        <Tab.Screen name="Schedule" component={ScheduleScreen} options={{ title: t('tab.schedule') }} />
+        <Tab.Screen name="Quiz" component={QuizScreen} options={{ title: t('tab.quiz') }} />
+        <Tab.Screen name="Cases" component={CasesScreen} options={{ title: t('tab.cases') }} />
+        <Tab.Screen name="Safety" component={SafetyScreen} options={{ title: t('tab.safety') }} />
+        <Tab.Screen name="Consult" component={ConsultScreen} options={{ title: t('tab.consult') }} />
+        <Tab.Screen name="Donate" component={DonateScreen} options={{ title: t('tab.donate') }} />
       </Tab.Navigator>
     </NavigationContainer>
   );
