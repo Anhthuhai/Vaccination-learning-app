@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import cases from '../data/cases';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function CaseCard({ item }) {
+  const { t } = useLanguage();
   const [selected, setSelected] = useState(null);
   const answered = selected !== null;
 
@@ -35,11 +37,11 @@ function CaseCard({ item }) {
       {answered && (
         <View style={styles.explainBox}>
           <Text style={styles.explainTitle}>
-            {selected === item.correctIndex ? '✅ Chính xác!' : '❌ Chưa đúng'}
+            {selected === item.correctIndex ? t('cases.correct') : t('cases.wrong')}
           </Text>
           <Text style={styles.explainText}>{item.explanation}</Text>
           <TouchableOpacity onPress={() => setSelected(null)}>
-            <Text style={styles.retry}>↺ Thử lại</Text>
+            <Text style={styles.retry}>{t('cases.retry')}</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -48,9 +50,10 @@ function CaseCard({ item }) {
 }
 
 export default function CasesScreen() {
+  const { t } = useLanguage();
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.heading}>Tình huống lâm sàng</Text>
+      <Text style={styles.heading}>{t('cases.heading')}</Text>
       {cases.map((c) => (
         <CaseCard key={c.id} item={c} />
       ))}

@@ -3,9 +3,11 @@ import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet } from 
 import vaccines, { categories } from '../data/vaccines';
 import dosing from '../data/dosing';
 import DisclaimerNote from '../components/DisclaimerNote';
+import { useLanguage } from '../i18n/LanguageContext';
 import { colors, radius, spacing, shadow } from '../theme';
 
 export default function VaccineInfoScreen() {
+  const { t } = useLanguage();
   const [query, setQuery] = useState('');
   const [cat, setCat] = useState('all');
   const [expandedId, setExpandedId] = useState(null);
@@ -23,12 +25,12 @@ export default function VaccineInfoScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.heading}>Vaccine tại Việt Nam</Text>
-      <Text style={styles.count}>{vaccines.length} loại vaccine · TCMR & dịch vụ</Text>
+      <Text style={styles.heading}>{t('vaccine.heading')}</Text>
+      <Text style={styles.count}>{t('vaccine.count', { n: vaccines.length })}</Text>
       <DisclaimerNote />
       <TextInput
         style={styles.search}
-        placeholder="Tìm theo tên vaccine, bệnh hoặc hãng..."
+        placeholder={t('vaccine.search')}
         value={query}
         onChangeText={setQuery}
       />
@@ -40,12 +42,12 @@ export default function VaccineInfoScreen() {
             style={[styles.chip, cat === c.id && styles.chipActive]}
             onPress={() => setCat(c.id)}
           >
-            <Text style={[styles.chipText, cat === c.id && styles.chipTextActive]}>{c.label}</Text>
+            <Text style={[styles.chipText, cat === c.id && styles.chipTextActive]}>{t('vaccine.cat.' + c.id)}</Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
 
-      {filtered.length === 0 && <Text style={styles.empty}>Không tìm thấy vaccine phù hợp.</Text>}
+      {filtered.length === 0 && <Text style={styles.empty}>{t('vaccine.empty')}</Text>}
 
       {filtered.map((v) => {
         const expanded = expandedId === v.id;
@@ -59,31 +61,31 @@ export default function VaccineInfoScreen() {
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle}>{v.name}</Text>
               <View style={[styles.badge, v.inEPI ? styles.badgeEpi : styles.badgeService]}>
-                <Text style={styles.badgeText}>{v.inEPI ? 'TCMR' : 'Dịch vụ'}</Text>
+                <Text style={styles.badgeText}>{v.inEPI ? t('vaccine.epi') : t('vaccine.service')}</Text>
               </View>
             </View>
-            <Text style={styles.cardSub}>Phòng: {v.disease}</Text>
+            <Text style={styles.cardSub}>{t('vaccine.prevents')}: {v.disease}</Text>
             {!!(v.brands && v.brands.length) && (
               <Text style={styles.brands}>🏷️ {v.brands.join(', ')}</Text>
             )}
 
             {expanded && (
               <View style={styles.details}>
-                <Text style={styles.detailRow}>🧬 Loại: {v.type}</Text>
-                <Text style={styles.detailRow}>💉 Đường dùng: {v.route}</Text>
-                <Text style={styles.detailRow}>👶 Đối tượng: {v.ageGroup}</Text>
-                <Text style={styles.detailRow}>🔢 Số liều: {v.doses}</Text>
-                <Text style={styles.detailRow}>🗓️ Lịch: {v.schedule}</Text>
+                <Text style={styles.detailRow}>{t('vaccine.type')}: {v.type}</Text>
+                <Text style={styles.detailRow}>{t('vaccine.route')}: {v.route}</Text>
+                <Text style={styles.detailRow}>{t('vaccine.ageGroup')}: {v.ageGroup}</Text>
+                <Text style={styles.detailRow}>{t('vaccine.doses')}: {v.doses}</Text>
+                <Text style={styles.detailRow}>{t('vaccine.schedule')}: {v.schedule}</Text>
                 <Text style={styles.detailDesc}>{v.description}</Text>
-                <Text style={styles.detailLabel}>⛔ Chống chỉ định:</Text>
+                <Text style={styles.detailLabel}>{t('vaccine.contraindications')}</Text>
                 <Text style={styles.detailBody}>{v.contraindications}</Text>
-                <Text style={styles.detailLabel}>⚠️ Tác dụng phụ:</Text>
+                <Text style={styles.detailLabel}>{t('vaccine.sideEffects')}</Text>
                 <Text style={styles.detailBody}>{v.sideEffects}</Text>
-                <Text style={styles.detailNote}>Lưu ý: {v.notes}</Text>
+                <Text style={styles.detailNote}>{t('vaccine.notes')}: {v.notes}</Text>
 
                 {!!(dosing[v.id] && dosing[v.id].length) && (
                   <View style={styles.doseSection}>
-                    <Text style={styles.detailLabel}>💊 Liều lượng & đường tiêm theo đối tượng:</Text>
+                    <Text style={styles.detailLabel}>{t('vaccine.dosingByGroup')}</Text>
                     {dosing[v.id].map((d, idx) => (
                       <View key={idx} style={styles.doseRow}>
                         <Text style={styles.doseBrand}>{d.brand}</Text>
@@ -103,12 +105,12 @@ export default function VaccineInfoScreen() {
                 )}
               </View>
             )}
-            <Text style={styles.expandHint}>{expanded ? 'Thu gọn ▲' : 'Xem chi tiết ▼'}</Text>
+            <Text style={styles.expandHint}>{expanded ? t('vaccine.collapse') : t('vaccine.expand')}</Text>
           </TouchableOpacity>
         );
       })}
       <Text style={styles.disclaimer}>
-        Thông tin tham khảo học tập. Vui lòng đối chiếu hướng dẫn của Bộ Y tế và nhà sản xuất.
+        {t('vaccine.footer')}
       </Text>
     </ScrollView>
   );

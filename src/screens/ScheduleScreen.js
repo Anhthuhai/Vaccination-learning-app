@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
 import schedule from '../data/schedule';
 import DisclaimerNote from '../components/DisclaimerNote';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export default function ScheduleScreen() {
+  const { t } = useLanguage();
   const [done, setDone] = useState({});
 
   const toggle = (key) => setDone((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -32,34 +34,34 @@ export default function ScheduleScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.heading}>Lịch tiêm chủng</Text>
+      <Text style={styles.heading}>{t('schedule.heading')}</Text>
       <Text style={styles.progress}>
-        Đã đánh dấu: {doneCount}/{allKeys.length} mũi
+        {t('schedule.progress', { done: doneCount, total: allKeys.length })}
       </Text>
       <DisclaimerNote />
       <View style={styles.legend}>
         <View style={[styles.tag, styles.tagEpi]}>
-          <Text style={styles.tagText}>TCMR</Text>
+          <Text style={styles.tagText}>{t('vaccine.epi')}</Text>
         </View>
-        <Text style={styles.legendText}>Miễn phí</Text>
+        <Text style={styles.legendText}>{t('schedule.free')}</Text>
         <View style={[styles.tag, styles.tagService, { marginLeft: 12 }]}>
-          <Text style={styles.tagText}>DV</Text>
+          <Text style={styles.tagText}>{t('schedule.serviceShort')}</Text>
         </View>
-        <Text style={styles.legendText}>Dịch vụ</Text>
+        <Text style={styles.legendText}>{t('schedule.service')}</Text>
       </View>
 
       {schedule.map((group) => (
         <View key={group.id} style={styles.group}>
           <Text style={styles.ageLabel}>{group.ageLabel}</Text>
-          {renderItems(group.epi || [], 'e', group.id, styles.tagEpi, 'TCMR')}
-          {renderItems(group.service || [], 's', group.id, styles.tagService, 'DV')}
+          {renderItems(group.epi || [], 'e', group.id, styles.tagEpi, t('vaccine.epi'))}
+          {renderItems(group.service || [], 's', group.id, styles.tagService, t('schedule.serviceShort'))}
           {(group.epi || []).length === 0 && (group.service || []).length === 0 && (
             <Text style={styles.none}>—</Text>
           )}
         </View>
       ))}
       <Text style={styles.disclaimer}>
-        Lịch mang tính tham khảo. Thời điểm cụ thể có thể thay đổi theo hướng dẫn của cơ sở tiêm chủng.
+        {t('schedule.footer')}
       </Text>
     </ScrollView>
   );

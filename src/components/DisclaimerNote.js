@@ -1,14 +1,16 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { DATA_DISCLAIMER } from '../data/appMeta';
+import { DATA_LAST_UPDATED } from '../data/appMeta';
+import { useLanguage } from '../i18n/LanguageContext';
 import { colors, radius, spacing } from '../theme';
 
 // Ghi chú nhắc người dùng kiểm chứng dữ liệu với văn bản hiện hành của Bộ Y tế
 export default function DisclaimerNote({ style }) {
+  const { t } = useLanguage();
   return (
     <View style={[styles.box, style]}>
       <Text style={styles.icon}>ℹ️</Text>
-      <Text style={styles.text}>{DATA_DISCLAIMER}</Text>
+      <Text style={styles.text}>{t('data.disclaimer', { date: DATA_LAST_UPDATED })}</Text>
     </View>
   );
 }

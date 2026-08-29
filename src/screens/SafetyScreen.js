@@ -3,6 +3,7 @@ import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import safety from '../data/safety';
 import serums from '../data/serums';
 import DisclaimerNote from '../components/DisclaimerNote';
+import { useLanguage } from '../i18n/LanguageContext';
 
 function Section({ title, items, color }) {
   return (
@@ -18,17 +19,18 @@ function Section({ title, items, color }) {
 }
 
 export default function SafetyScreen() {
+  const { t } = useLanguage();
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.heading}>An toàn & Tác dụng phụ</Text>
+      <Text style={styles.heading}>{t('safety.heading')}</Text>
       <DisclaimerNote />
-      <Section title="✅ Chuẩn bị trước khi tiêm" items={safety.beforeVaccination} color="#0d9488" />
-      <Section title="Phản ứng thường gặp (nhẹ)" items={safety.common} color="#2e7d32" />
-      <Section title="Phản ứng hiếm gặp" items={safety.rare} color="#e65100" />
-      <Section title="⚠️ Khi nào cần đến cơ sở y tế ngay" items={safety.whenToSeekHelp} color="#c62828" />
-      <Section title="Chăm sóc tại nhà" items={safety.homeCare} color="#0d9488" />
+      <Section title={t('safety.before')} items={safety.beforeVaccination} color="#0d9488" />
+      <Section title={t('safety.common')} items={safety.common} color="#2e7d32" />
+      <Section title={t('safety.rare')} items={safety.rare} color="#e65100" />
+      <Section title={t('safety.seekHelp')} items={safety.whenToSeekHelp} color="#c62828" />
+      <Section title={t('safety.homeCare')} items={safety.homeCare} color="#0d9488" />
 
-      <Text style={styles.subHeading}>📚 Kiến thức nền</Text>
+      <Text style={styles.subHeading}>{t('safety.principles')}</Text>
       {safety.principles.map((p, i) => (
         <View key={i} style={styles.principle}>
           <Text style={styles.principleTitle}>{p.title}</Text>
@@ -36,26 +38,26 @@ export default function SafetyScreen() {
         </View>
       ))}
 
-      <Text style={styles.subHeading}>💉 Huyết thanh (miễn dịch thụ động)</Text>
+      <Text style={styles.subHeading}>{t('safety.serumTitle')}</Text>
       <Text style={styles.serumIntro}>
-        Huyết thanh cung cấp kháng thể có sẵn, tác dụng ngay nhưng ngắn hạn - thường phối hợp cùng vaccine.
+        {t('safety.serumIntro')}
       </Text>
       {serums.map((s) => (
         <View key={s.id} style={styles.serumCard}>
           <Text style={styles.serumName}>{s.name}</Text>
           <Text style={styles.serumFull}>{s.fullName}</Text>
-          {s.types.map((t, i) => (
-            <Text key={i} style={styles.serumType}>• {t}</Text>
+          {s.types.map((ty, i) => (
+            <Text key={i} style={styles.serumType}>• {ty}</Text>
           ))}
-          <Text style={styles.serumLabel}>🎯 Chỉ định:</Text>
+          <Text style={styles.serumLabel}>{t('safety.serumIndication')}</Text>
           <Text style={styles.serumBody}>{s.indication}</Text>
-          <Text style={styles.serumLabel}>💊 Liều:</Text>
+          <Text style={styles.serumLabel}>{t('safety.serumDose')}</Text>
           <Text style={styles.serumBody}>{s.dose}</Text>
-          <Text style={styles.serumLabel}>⏱️ Thời điểm dùng:</Text>
+          <Text style={styles.serumLabel}>{t('safety.serumTiming')}</Text>
           <Text style={styles.serumBody}>{s.timing}</Text>
-          <Text style={styles.serumLabel}>💉 Đường dùng:</Text>
+          <Text style={styles.serumLabel}>{t('safety.serumRoute')}</Text>
           <Text style={styles.serumBody}>{s.route}</Text>
-          <Text style={styles.serumLabel}>📌 Lưu ý:</Text>
+          <Text style={styles.serumLabel}>{t('safety.serumNotes')}</Text>
           {s.notes.map((n, i) => (
             <Text key={i} style={styles.serumBody}>- {n}</Text>
           ))}
@@ -63,7 +65,7 @@ export default function SafetyScreen() {
       ))}
 
       <Text style={styles.disclaimer}>
-        Thông tin mang tính tham khảo, học tập. Luôn tuân theo hướng dẫn của cán bộ y tế.
+        {t('safety.footer')}
       </Text>
     </ScrollView>
   );

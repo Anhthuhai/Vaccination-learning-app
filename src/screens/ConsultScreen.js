@@ -17,6 +17,7 @@ import { elderly, chronic } from '../data/elderly';
 import { immunocompromised, occupationTravel } from '../data/special';
 import { meningococcal } from '../data/meningococcal';
 import DisclaimerNote from '../components/DisclaimerNote';
+import { useLanguage } from '../i18n/LanguageContext';
 const vaccineById = {};
 vaccines.forEach((v) => {
   vaccineById[v.id] = v;
@@ -281,6 +282,7 @@ function MeningoAdvice({ data }) {
 }
 
 export default function ConsultScreen() {
+  const { t } = useLanguage();
   const [mode, setMode] = useState('age'); // 'age' | 'pre' | 'pregnant' | 'post' | 'elderly' | 'chronic'
   const [years, setYears] = useState('');
   const [months, setMonths] = useState('');
@@ -387,19 +389,19 @@ export default function ConsultScreen() {
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
-      <Text style={styles.title}>Tư vấn tiêm chủng</Text>
+      <Text style={styles.title}>{t('consult.title')}</Text>
       <Text style={styles.subtitle}>
-        Nhập thông tin khách hàng để gợi ý các vaccine phù hợp để tư vấn/tiêm.
+        {t('consult.subtitle')}
       </Text>
       <DisclaimerNote />
 
       {/* Chọn chế độ tư vấn */}
       <View style={styles.modeRow}>
         {[
-          { key: 'age', label: 'Theo tuổi/giới' },
-          { key: 'pre', label: 'Chuẩn bị\nmang thai' },
-          { key: 'pregnant', label: 'Thai phụ' },
-          { key: 'post', label: 'Sau sinh' },
+          { key: 'age', label: t('consult.mode.age') },
+          { key: 'pre', label: t('consult.mode.pre') },
+          { key: 'pregnant', label: t('consult.mode.pregnant') },
+          { key: 'post', label: t('consult.mode.post') },
         ].map((m) => (
           <TouchableOpacity
             key={m.key}
@@ -414,10 +416,10 @@ export default function ConsultScreen() {
       </View>
       <View style={styles.modeRow}>
         {[
-          { key: 'elderly', label: 'Người\nlớn tuổi' },
-          { key: 'chronic', label: 'Cao tuổi\ncó bệnh nền' },
-          { key: 'immuno', label: 'Suy giảm\nmiễn dịch' },
-          { key: 'travel', label: 'NVYT /\ndu lịch' },
+          { key: 'elderly', label: t('consult.mode.elderly') },
+          { key: 'chronic', label: t('consult.mode.chronic') },
+          { key: 'immuno', label: t('consult.mode.immuno') },
+          { key: 'travel', label: t('consult.mode.travel') },
         ].map((m) => (
           <TouchableOpacity
             key={m.key}
@@ -432,7 +434,7 @@ export default function ConsultScreen() {
       </View>
       <View style={styles.modeRow}>
         {[
-          { key: 'meningo', label: 'Não mô cầu' },
+          { key: 'meningo', label: t('consult.mode.meningo') },
         ].map((m) => (
           <TouchableOpacity
             key={m.key}
@@ -510,7 +512,7 @@ export default function ConsultScreen() {
         </View>
 
         {/* Giới tính */}
-        <Text style={[styles.label, { marginTop: 16 }]}>Giới tính</Text>
+        <Text style={[styles.label, { marginTop: 16 }]}>{t('consult.gender')}</Text>
         <View style={styles.row}>
           {[
             { key: 'all', label: 'Không xác định' },

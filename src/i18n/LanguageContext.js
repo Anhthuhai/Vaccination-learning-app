@@ -48,11 +48,18 @@ export function LanguageProvider({ children }) {
     });
   }, []);
 
-  // Hàm dịch: trả về chuỗi theo ngôn ngữ hiện tại, fallback về tiếng Việt rồi về chính key
+  // Hàm dịch: trả về chuỗi theo ngôn ngữ hiện tại, hỗ trợ chèn tham số {key}
+  // fallback về tiếng Việt rồi về chính key nếu thiếu
   const t = useCallback(
-    (key) => {
+    (key, params) => {
       const dict = translations[lang] || translations[DEFAULT_LANG];
-      return dict[key] ?? translations[DEFAULT_LANG][key] ?? key;
+      let str = dict[key] ?? translations[DEFAULT_LANG][key] ?? key;
+      if (params) {
+        Object.keys(params).forEach((p) => {
+          str = str.replace(new RegExp(`\\{${p}\\}`, 'g'), String(params[p]));
+        });
+      }
+      return str;
     },
     [lang]
   );

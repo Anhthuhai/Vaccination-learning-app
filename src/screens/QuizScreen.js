@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
 import quizQuestions from '../data/quizQuestions';
 import DisclaimerNote from '../components/DisclaimerNote';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const SET_SIZE = 10;
 
 export default function QuizScreen() {
+  const { t } = useLanguage();
   const [started, setStarted] = useState(false);
   const [pool, setPool] = useState([]); // danh sách chỉ số câu hỏi trong phần đang làm
   const [pos, setPos] = useState(0); // vị trí hiện tại trong pool
@@ -33,7 +35,7 @@ export default function QuizScreen() {
       const end = Math.min(total, i + SET_SIZE);
       const indices = [];
       for (let j = i; j < end; j += 1) indices.push(j);
-      sets.push({ label: `Câu ${i + 1}–${end}`, indices });
+      sets.push({ label: t('quiz.setLabel', { from: i + 1, to: end }), indices });
     }
     return sets;
   };
@@ -86,9 +88,9 @@ export default function QuizScreen() {
     const sets = buildSets();
     return (
       <ScrollView contentContainerStyle={styles.startContainer}>
-        <Text style={styles.title}>Quiz kiểm tra kiến thức</Text>
+        <Text style={styles.title}>{t('quiz.title')}</Text>
         <Text style={styles.subtitle}>
-          {total} câu về vaccine & tiêm chủng. Chọn phần bạn muốn luyện tập:
+          {total} {t('quiz.subtitle')}
         </Text>
         <DisclaimerNote />
 
@@ -96,10 +98,10 @@ export default function QuizScreen() {
           style={styles.allBtn}
           onPress={() => startPool(quizQuestions.map((_, i) => i))}
         >
-          <Text style={styles.allBtnText}>▶️  Làm toàn bộ {total} câu</Text>
+          <Text style={styles.allBtnText}>{t('quiz.doAllN', { n: total })}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.sectionLabel}>📚 Theo bộ {SET_SIZE} câu</Text>
+        <Text style={styles.sectionLabel}>{t('quiz.bySet', { n: SET_SIZE })}</Text>
         <View style={styles.setWrap}>
           {sets.map((s) => (
             <TouchableOpacity
@@ -112,12 +114,12 @@ export default function QuizScreen() {
           ))}
         </View>
 
-        <Text style={styles.sectionLabel}>🎯 Theo mức độ</Text>
+        <Text style={styles.sectionLabel}>{t('quiz.byLevel')}</Text>
         <View style={styles.setWrap}>
           {[
-            { label: 'Dễ', level: 'Dễ', color: '#2e7d32' },
-            { label: 'Trung bình', level: 'Trung bình', color: '#ef6c00' },
-            { label: 'Khó', level: 'Khó', color: '#c62828' },
+            { label: t('quiz.easy'), level: 'Dễ', color: '#2e7d32' },
+            { label: t('quiz.medium'), level: 'Trung bình', color: '#ef6c00' },
+            { label: t('quiz.hard'), level: 'Khó', color: '#c62828' },
           ].map((d) => {
             const indices = byDifficulty(d.level);
             return (
@@ -140,21 +142,21 @@ export default function QuizScreen() {
   // ================= MÀN HÌNH KẾT QUẢ =================
   if (finished) {
     const percent = pool.length ? Math.round((score / pool.length) * 100) : 0;
-    let message = 'Cần ôn tập thêm nhé!';
-    if (percent >= 80) message = 'Xuất sắc! 🎉';
-    else if (percent >= 50) message = 'Khá tốt, cố gắng thêm!';
+    let message = t('quiz.needReview');
+    if (percent >= 80) message = t('quiz.excellent');
+    else if (percent >= 50) message = t('quiz.good');
     return (
       <View style={styles.center}>
-        <Text style={styles.title}>Kết quả</Text>
+        <Text style={styles.title}>{t('quiz.resultTitle')}</Text>
         <Text style={styles.scoreText}>
           {score}/{pool.length} ({percent}%)
         </Text>
         <Text style={styles.subtitle}>{message}</Text>
         <TouchableOpacity style={styles.primaryBtn} onPress={() => setFinished(false)}>
-          <Text style={styles.primaryBtnText}>Xem lại các câu</Text>
+          <Text style={styles.primaryBtnText}>{t('quiz.reviewQuestions')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.secondaryBtn} onPress={() => setStarted(false)}>
-          <Text style={styles.secondaryBtnText}>Chọn phần khác</Text>
+          <Text style={styles.secondaryBtnText}>{t('quiz.selectOtherPart')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -166,13 +168,13 @@ export default function QuizScreen() {
       {/* Thanh điều hướng trên cùng */}
       <View style={styles.topBar}>
         <TouchableOpacity style={styles.navChip} onPress={() => setStarted(false)}>
-          <Text style={styles.navChipText}>☰ Phần khác</Text>
+          <Text style={styles.navChipText}>☰ {t('quiz.otherParts')}</Text>
         </TouchableOpacity>
         <Text style={styles.progress}>
-          Câu {pos + 1}/{pool.length} · Điểm {score} · Đã làm {answeredCount}
+          {t('quiz.question')} {pos + 1}/{pool.length} · {t('quiz.score')} {score} · {t('quiz.done')} {answeredCount}
         </Text>
         <TouchableOpacity style={styles.navChip} onPress={() => setShowNav((v) => !v)}>
-          <Text style={styles.navChipText}>{showNav ? '✕ Đóng' : '🔢 Chọn câu'}</Text>
+          <Text style={styles.navChipText}>{showNav ? '✕ ' + t('quiz.close') : '🔢 ' + t('quiz.selectQuestion')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -204,7 +206,7 @@ export default function QuizScreen() {
 
       {!!q.difficulty && (
         <View style={styles.diffBadge}>
-          <Text style={styles.diffText}>Mức độ: {q.difficulty}</Text>
+          <Text style={styles.diffText}>{t('quiz.level')}: {q.difficulty}</Text>
         </View>
       )}
       <Text style={styles.question}>{q.question}</Text>
@@ -223,12 +225,12 @@ export default function QuizScreen() {
               <Text style={styles.optionText}>{opt}</Text>
               {answered && isCorrect && (
                 <View style={[styles.tag, styles.tagCorrect]}>
-                  <Text style={styles.tagCorrectText}>✓ Đáp án đúng</Text>
+                  <Text style={styles.tagCorrectText}>{t('quiz.correctAnswer')}</Text>
                 </View>
               )}
               {answered && isSelected && !isCorrect && (
                 <View style={[styles.tag, styles.tagWrong]}>
-                  <Text style={styles.tagWrongText}>Bạn đã chọn</Text>
+                  <Text style={styles.tagWrongText}>{t('quiz.youChose')}</Text>
                 </View>
               )}
             </View>
@@ -239,7 +241,7 @@ export default function QuizScreen() {
       {answered && (
         <View style={styles.explainBox}>
           <Text style={styles.explainTitle}>
-            {selected === q.correctIndex ? '✅ Chính xác!' : '❌ Chưa đúng'}
+            {selected === q.correctIndex ? t('quiz.correct') : t('quiz.wrong')}
           </Text>
           <Text style={styles.explainText}>{q.explanation}</Text>
         </View>
@@ -252,11 +254,11 @@ export default function QuizScreen() {
           onPress={prev}
           disabled={pos === 0}
         >
-          <Text style={styles.navBtnText}>← Câu trước</Text>
+          <Text style={styles.navBtnText}>{t('quiz.prevQuestion')}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.navBtn, styles.navBtnPrimary]} onPress={next}>
           <Text style={[styles.navBtnText, styles.navBtnTextPrimary]}>
-            {pos + 1 >= pool.length ? 'Xem kết quả' : 'Câu sau →'}
+            {pos + 1 >= pool.length ? t('quiz.viewResult') : t('quiz.nextQuestion')}
           </Text>
         </TouchableOpacity>
       </View>
